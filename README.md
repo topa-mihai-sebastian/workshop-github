@@ -97,7 +97,7 @@ For each repository, use the GitHub CLI tool to:
 ## Create Work GitHub Repository
 
 Let's first create a work GitHub repository based on the current repository.
-We will use it for toying arround, messing it up and fixing it.
+We will use it for toying around, messing it up and fixing it.
 
 First, make sure you are in the local directory clone of this repository (`workshop-github`).
 Then, create a repository on GitHub from the command line (using GitHub CLI - `gh`):
@@ -173,13 +173,13 @@ For that, in the GitHub web interface for the pull request follow the steps:
 
 1. Click the `Review changes` button.
 
-1. Approve the pull request.
+1. Aim to approve your pull request.
+   You cannot approve your pull request, if you're the author.
 
 1. Now, get back to the `Conversation` tab.
-   See that the pull request is now approved.
    Go below to the `Merge pull request` button.
 
-   Below clicking the button, see the options from the little dropdown option on the right.
+   Below clicking the button, see the options from the little drop-down option on the right.
    See what are the options, choose one and do it.
 
 ### Do It Yourself
@@ -199,6 +199,64 @@ For that, in the GitHub web interface for the pull request follow the steps:
 
    Create at least one pull request with two commits.
    Use the `Squash and merge` merge strategy.
+
+## Approve Pull Request
+
+In order to approve a pull request, you need to have another user able to approve your pull requests.
+
+Before everything, reset the repository:
+
+```console
+./gh-reset-repo.sh
+```
+
+And create the pull request, as above.
+
+To add someone to be able to approve your pull requests, they need to have `Triage` permissions.
+For this, do the following:
+
+1. Go to the `Settings` tab in the GitHub web view of your repository.
+
+1. Go to the `Collaborators` entry in the left menu.
+   You'll have to provide your GitHub password, or use some other authentication method.
+
+1. Ask someone around you for their GitHub username.
+   Add them to the repository as collaborator.
+
+1. Ask them to confirm the invite via e-mail or by accessing the invitation URL: `https://github.com/<your-github-username>/workshop-github/invitations`
+
+1. Ask them to approve your pull request.
+
+1. Now merge the pull request.
+
+## Require Approval for Pull Requests
+
+We want to enforce an approval for our pull requests.
+
+Before everything, reset the repository:
+
+```console
+./gh-reset-repo.sh
+```
+
+And create the pull request, as above.
+
+Now add a ruleset to add a required approval condition.
+For this, do the following:
+
+1. Go to the `Settings` tab in the GitHub web view of your repository.
+
+1. Go to the `Branches` entry in the left menu.
+
+1. Click `Add branch ruleset`.
+
+1. Check `Require a pull request before merging`.
+
+1. Add `1` to `Required approvals`.
+
+1. Now ask for an approval for your pull request, as above.
+
+1. Merge the pull request with the approval now done.
 
 ## Configure Merge Strategy
 
