@@ -139,6 +139,7 @@ We do the steps:
 1. Create commit:
 
    ```console
+   git add c-bye/
    git commit -s -m 'Introduce c-bye program'
    ```
 
