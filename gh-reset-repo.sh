@@ -51,7 +51,8 @@ reset_branch_to_remote main true-origin
 git push --force upstream main
 
 # Close all pull requests.
-gh repo set-default $(git remote show upstream | grep 'Fetch URL' | awk -F ':' '{print $3;}')
+repo_name=$(git remote show upstream | grep 'Fetch URL' | sed 's/\.git//' | rev | awk -F '[/:]' '{print $1"/"$2;}' | rev)
+gh repo set-default "$repo_name"
 for pr in $(gh pr list --json number | jq '.[] | values[]'); do
     gh pr close "$pr" -d
 done
