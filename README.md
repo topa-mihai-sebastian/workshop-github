@@ -1,6 +1,7 @@
 # GitHub Workshop
 
 This is a practical workshop consisting of common GitHub-related actions.
+It is based on the [`unikraft/catalog-core` repository](https://github.com/unikraft/catalog-core), giving us a concrete Git repository to screw up ... hmmmm ... to do wonderful amazing great things to.
 
 First of all, clone the [repository](https://github.com/rosedu/workshop-github):
 
@@ -62,7 +63,7 @@ Follow the instructions [here](https://docs.github.com/en/authentication/connect
 
 Create a personal access token to use as an authentication mechanism for GitHub.
 Follow the instructions [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens#creating-a-personal-access-token-classic).
-Add all permissions to the personal access token.
+Add **all permissions** to the personal access token.
 
 ## Set Up GitHub CLI
 
@@ -86,45 +87,180 @@ git clone https://github.com/microsoft/openvmm
 git clone https://github.com/nodejs/node
 ```
 
-For each repository, use the GitHub CLi tool to:
+For each repository, use the GitHub CLI tool to:
 
-- List repository issues.
-- List repository pull requests.
-- List repository pull requests whose state is `closed`.
-- View details about a pull request.
+- List repository issues with `gh issue list`.
+- List repository pull requests with `gh pr list`.
+- List repository pull requests whose state is `closed` with `gh pr list -s closed`.
+- View details about a pull request with `gh pr view <PR_ID>`.
 
-## Work with Pull Requests
+## Create Work GitHub Repository
 
-### Review and Merge Pull Requests
+Let's first create a work GitHub repository based on the current repository.
+We will use it for toying arround, messing it up and fixing it.
 
-Create repository and pull requests automatically.
+First, make sure you are in the local directory clone of this repository (`workshop-github`).
+Then, create a repository on GitHub from the command line (using GitHub CLI - `gh`):
 
-Review and merge pull requests.
+```console
+./gh-create-repo.sh
+```
 
-Reset and repeat.
+Check your repository on GitHub using a web browser.
 
-### Create Pull Requests
+Your repository is now available as the `upstream` remote.
+Check your remotes:
 
-Create commit and branches.
+```console
+git remote show
+git remote show origin
+git remote show upstream
+```
 
-Push
+## Create Pull Requests
 
-Create pull request.
+Let's now create pull requests on our GitHub repository.
+A pull request is created from a series of commits in a branch.
 
-Review end merge.
+We do the steps:
 
-Reset and repeat.
+1. Create a branch for the new pull request:
+
+   ```console
+   git checkout -b add-c-bye
+   ```
+
+1. Create the contents of the `c-bye` program:
+
+   ```console
+   unzip support/c-bye.zip
+   ```
+
+1. Create commit:
+
+   ```console
+   git commit -s -m 'Introduce c-bye program'
+   ```
+
+1. Push commit to the `upstream` remote:
+
+   ```console
+   git push upstream add-c-bye
+   ```
+
+1. Create a pull request by clicking on the URL that was printed by the command above.
+   You will end up having a pull request created in the repository.
+   The pull request is requesting for a merge to happen from the `add-c-bye` to `main`.
+
+### Do It Yourself
+
+1. Repeat the above steps at least 2 more times.
+   Reset before each step:
+
+   ```console
+   ./gh-reset-repo.sh
+   ```
+
+1. Do the same steps as above for the `cpp-bye` and `python3-bye` programs in the `support/` directory.
+   You should end up with three pull requests.
+
+## Review and Merge Pull Requests
+
+The pull requests should be reviewed and merged.
+For that, in the GitHub web interface for the pull request follow the steps:
+
+1. Go to the `Files changed` tab.
+
+1. Click the `Review changes` button.
+
+1. Approve the pull request.
+
+1. Now, get back to the `Conversation` tab.
+   See that the pull request is now approved.
+   Go below to the `Merge pull request` button.
+
+   Below clicking the button, see the options from the little dropdown option on the right.
+   See what are the options, choose one and do it.
+
+### Do It Yourself
+
+1. Do the steps above for all 3 pull requests.
+
+1. Now reset the repository:
+
+   ```console
+   ./gh-reset-repo.sh
+   ```
+
+   and redo the pull requests, and merge them again.
+
+1. Create your own commits and pull requests.
+   Be creative.
+
+   Create at least one pull request with two commits.
+   Use the `Squash and merge` merge strategy.
+
+## Configure Merge Strategy
+
+We want to configure `Rebase and merge` as the only merge strategy.
+
+For that, do the steps:
+
+1. Go in the `Settings` tab in web view of your GitHub repository.
+
+1. Go to the `Pull Requests` session.
+
+1. Uncheck `Allow merge` commits and `Allow squash merging`.
+
+Now create a new pull request and see that the only option for merging is `Rebase and merge`.
 
 ## Collaborate with GitHub
 
-Submit PR to a repository of someone else - use a fork.
+GitHub shines for collaborative / team work.
+For this, work in pairs of two.
+
+Before this, do a reset of your repository:
+
+```
+./gh-reset-repo.sh
+```
+
+Each of view should now:
+
+1. Create of fork of the other's repository.
+   Be sure to give it a different name, not to clash with your own `workshop-github` repository name.
+
+1. Clone the fork locally:
+
+   ```console
+   git clone <fork_url>
+   cd <clone_directory>
+   ```
+
+1. Create a branch and commit(s) from `c-bye`.
+
+1. Push the branch to the `origin` remote (belonging to your fork).
+
+1. Create a pull request to the other's repository (from fork to the initial repository).
+
+1. The other person should approve and merge your pull request.
+
+Do this multiple times, be creative, use your own ideas.
 
 ## Your Own Repository
 
-Work in pairs.
+Now, let's get really creative.
 
-Create repository, fill all items, tabs.
-Create initial commits.
-Create issues.
+Continue working in pairs of two.
 
-Solve issues from others.
+Each of you should create their own repository, with whatever content they want.
+Create it from scratch, be creative, do whatever you want.
+Configure the repository to use the `Rebase and merge` strategy.
+
+Ask the other to fork your repository and then ask the other to create a pull request.
+Toy around.
+
+### Nice To Do
+
+Before asking for a pull request, create an issue on your repository, and ask the other to "solve" the issue by creating a corresponding pull request.
+Link the pull request to the issue once it is created, by following instructions [here](https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue).
